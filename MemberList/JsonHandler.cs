@@ -33,7 +33,6 @@ namespace MemberList
         public static List<Member> GetListFromJson()
         {   //Deserialize gjør om en string til ett object
             var m = JsonConvert.DeserializeObject<List<Member>>(text);
-
             //Første gang når filen er tom vil objectet være null.
             //Om den er null så oppretter vi objectet
             if (m == null) { m = new List<Member>(); }
