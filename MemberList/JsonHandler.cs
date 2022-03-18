@@ -10,8 +10,7 @@ namespace MemberList
     {
         private static string path = @"C:\Users\cLuMsY\Desktop\MemberList.json";
         private static string text = File.ReadAllText(path);
-       
-     
+         
         public static void WriteToJson(List<Member> model)
         {
             //Stopwatch kan sjekke hvor rask en methode er eller en del av en kode.

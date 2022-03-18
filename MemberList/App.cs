@@ -74,6 +74,7 @@ namespace MemberList
             if (checkMemberList == "c")
             {
                 var list = JsonHandler.GetListFromJson();
+                Console.Clear();
                 foreach (var item in list)
                 {
                     Console.WriteLine(item.FirstName);
@@ -88,31 +89,36 @@ namespace MemberList
 
         private static void DeleteAMember(List<Member> list)
         {
-            Console.WriteLine("Write the name of who you want to delete");
+            Console.WriteLine("Write the name of who you want to delete | R to return");
             var userInput = Console.ReadLine();
+            if (userInput == ""){ DeleteAMember(list); }
+            if (userInput == "R".ToLower()){ Run(); }
+
             var people = list.FirstOrDefault(x => x.FirstName.ToLower() == userInput.ToLower());
             Console.WriteLine($"Are you sure you want to delete: {people.FirstName}?");
             Textcolor(ConsoleColor.Red);
             Console.WriteLine("               YES/NO");
             Textcolor(ConsoleColor.White);
             userInput = Console.ReadLine();
-            if (userInput == "YES".ToLower()) 
-            {
-                Textcolor(ConsoleColor.Red);
-                list.Remove(people);
-                Console.WriteLine($"Removed: {people.FirstName}");
-                JsonHandler.WriteToJson(list);
-                Console.ReadLine();
-                Textcolor(ConsoleColor.White);
-            }
-            else if(userInput == "NO".ToLower()) 
+            if (userInput == "YES".ToLower()){ RemoveMember(list, people); Run(); }
+            else if(userInput == "NO".ToLower())  
             { 
                  Textcolor(ConsoleColor.White);
                  userInput = "";
-                 Console.Clear();
                  Run();
             }                         
         }
+
+        private static void RemoveMember(List<Member> list, Member people)
+        {
+            Textcolor(ConsoleColor.Red);
+            list.Remove(people);
+            Console.WriteLine($"Removed: {people.FirstName}");
+            JsonHandler.WriteToJson(list);
+            Console.ReadLine();
+            Textcolor(ConsoleColor.White);
+        }
+
         public static void Textcolor(ConsoleColor color)
         {
             Console.ForegroundColor = color;
