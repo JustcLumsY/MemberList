@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            _ = Display.AddMember();
+            Display.Run();
         }
     }
 }

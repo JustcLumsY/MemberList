@@ -13,18 +13,21 @@ namespace MemberList
     {
         private static string path = @"C:\Users\cLuMsY\Desktop\MemberList.json";
         private static string text = File.ReadAllText(path);
+       
      
         public static void WriteToJson(List<Member> model)
         {
             //Stopwatch kan sjekke hvor rask en methode er eller en del av en kode.
             var sw = new Stopwatch();
+            sw.Start();
+
             //Gjør om ett object til en Json string.
             //Serialisere er å gjøre om noe
             var json = JsonConvert.SerializeObject(model);
 
-            sw.Start();
             //Skriver all teksten til en path på disk
             File.WriteAllText(path, json); 
+
             sw.Stop();
             Console.WriteLine($"{sw.ElapsedMilliseconds}ms"
             );
