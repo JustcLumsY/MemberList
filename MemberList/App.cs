@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MemberList
 {
-    public class Display
+    public class App
     {      
         public static void Run()
         {
@@ -17,25 +15,44 @@ namespace MemberList
         private static void Addnewmember()
         {
             Console.Clear();
-            //Henter mainList Json (med alle medlemene)
+            //Henter mainList Json (med alle medlemmene)
             var mainList = JsonHandler.GetListFromJson();
+            string firstName, lastName;
+            Member newMember;
+            AddFirstNameLastNameandAge(out firstName, out lastName, out newMember);
+            CheckIfUsernameExist(firstName, lastName);
+            //Adder ny member til MainListen<>
+            mainList.Add(newMember);
+            JsonHandler.WriteToJson(mainList);
+            //Viser member som ble lagt til
+            ShowNewMember(newMember);
+            Run();
+        }
 
+        private static void AddFirstNameLastNameandAge(out string firstName, out string lastName, out Member newMember)
+        {
             Console.WriteLine("Enter FirstName");
-            var firstName = Console.ReadLine();
-
+            firstName = Console.ReadLine();
             Console.WriteLine("Enter LastName");
-            var lastName = Console.ReadLine();
-
+            lastName = Console.ReadLine();
             Console.WriteLine("Enter Age");
             var age = Convert.ToInt32(Console.ReadLine());
+            newMember = new Member(firstName, lastName, age);
+        }
 
-            var newMember = new Member(firstName, lastName, age);
-
-            //Adder ny member til MainListen<>
-             mainList.Add(newMember); 
-             JsonHandler.WriteToJson(mainList);
-             ShowNewMember(newMember);
-             Run();
+        private static void CheckIfUsernameExist(string firstname, string lastname)
+        {
+            var test = JsonHandler.GetListFromJson();
+            foreach (var user in test)
+            {
+                if (user.FirstName == firstname && user.LastName == lastname)
+                {
+                    Console.Clear();
+                    Console.WriteLine("FirstName and LastName exist. Try again");
+                    Console.ReadLine();
+                    Run();
+                }
+            }
         }
 
         private static void ShowNewMember(Member newMember)
